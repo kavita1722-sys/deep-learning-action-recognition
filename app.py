@@ -614,5 +614,32 @@ def timeline():
 
 
 # RUN APP
+# ============================================================
+# Flask Application Entry Point
+# ============================================================
+# This section starts the Flask server.
+# It is required when deploying to cloud platforms like Render.
+
+import os
+
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    
+    # ------------------------------------------------------------
+    # Render (and most cloud platforms) provide a PORT environment
+    # variable. We must run the server on that port so the platform
+    # can route traffic to our application.
+    #
+    # If the PORT variable does not exist (for example when running
+    # locally on our laptop), we default to port 5000.
+    # ------------------------------------------------------------
+    port = int(os.environ.get("PORT", 5000))
+    
+    # ------------------------------------------------------------
+    # host="0.0.0.0"
+    # This allows the server to accept requests from outside
+    # the local machine (required for cloud deployment).
+    #
+    # Without this, the app would only listen to localhost
+    # and Render would not detect the open port.
+    # ------------------------------------------------------------
+    app.run(host="0.0.0.0", port=port)
