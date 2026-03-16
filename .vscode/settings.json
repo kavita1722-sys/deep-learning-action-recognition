@@ -1,0 +1,23 @@
+// I configured this settings.json file manually to ensure that VS Code uses
+    // the correct Python interpreter from my project's virtual environment.
+    // This helps maintain dependency isolation and avoids conflicts with
+    // globally installed Python packages.
+
+    // The "python.defaultInterpreterPath" explicitly points to the Python
+    // executable inside my project's venv folder so that all scripts,
+    // training code, and modules run within the same environment.
+
+    // The "python.analysis.extraPaths" setting adds the virtual environment's
+    // site-packages directory to the analysis path. This allows VS Code's
+    // IntelliSense and code analysis engine to properly recognize installed
+    // libraries and avoid unresolved import warnings.
+
+    // I added these configurations mainly for my own learning and
+    // understanding of how VS Code interacts with Python virtual environments
+    // in a deep learning project structure.
+{
+    "python.defaultInterpreterPath": "C:\\Users\\anko1\\Desktop\\DeepLearning_ActionRecognition\\venv\\Scripts\\python.exe",
+    "python.analysis.extraPaths": [
+        "./venv/Lib/site-packages"
+    ]
+}

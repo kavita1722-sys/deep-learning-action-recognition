@@ -1,0 +1,279 @@
+<!--
+===============================================================================
+File: webcam.html
+Project: Explainable Human Action Recognition with CNN-LSTM
+Developer: Aman Singh
+Purpose: Personal documentation for understanding how the webcam interface works
+===============================================================================
+
+This HTML file is responsible for displaying the LIVE WEBCAM action recognition
+interface of my Flask-based AI application.
+
+Unlike index.html (which handles uploaded videos), this page directly streams
+frames from the webcam and shows real-time AI predictions.
+
+-------------------------------------------------------------------------------
+1. PAGE PURPOSE
+-------------------------------------------------------------------------------
+The goal of this page is to allow the user to:
+
+• Open their webcam
+• Stream video to the backend Flask server
+• Run CNN-LSTM action recognition in real time
+• Display predictions directly on the video stream
+
+The backend route used for streaming is:
+
+    /video_feed
+
+This route continuously sends processed frames to the browser.
+
+-------------------------------------------------------------------------------
+2. PAGE STRUCTURE
+-------------------------------------------------------------------------------
+
+The page is divided into three main components:
+
+1) Title Section
+   Displays the project name:
+   "Explainable Human Action Recognition with CNN-LSTM"
+
+2) Webcam Display Box
+   Shows the live webcam stream processed by the AI model.
+
+3) Prediction Result Card
+   Shows prediction information in text form.
+
+4) Navigation Button
+   Allows the user to go back to the video upload page.
+
+-------------------------------------------------------------------------------
+3. WEBCAM STREAMING MECHANISM
+-------------------------------------------------------------------------------
+
+The webcam feed is displayed using an HTML <img> tag:
+
+    <img src="{{ url_for('video_feed') }}">
+
+This connects the frontend with the Flask backend route.
+
+The backend continuously sends frames as a streaming response
+(MJPEG stream).
+
+Each frame is processed by the CNN-LSTM model before being sent.
+
+The backend overlays:
+
+• Action label
+• Confidence score
+• Explainability information
+
+directly on the video frame using OpenCV.
+
+Because of this, the frontend does not need JavaScript prediction logic.
+
+-------------------------------------------------------------------------------
+4. WEBCAM CONTAINER DESIGN
+-------------------------------------------------------------------------------
+
+The webcam video is placed inside a responsive container:
+
+.webcam-box
+
+Key features:
+
+• width: 90vw
+• height: 60vh
+• max-width: 1000px
+
+This ensures the webcam stream works well on:
+
+• laptops
+• desktops
+• large monitors
+
+The video is displayed using:
+
+object-fit: contain
+
+This prevents distortion and keeps the original video ratio.
+
+-------------------------------------------------------------------------------
+5. RESULT CARD
+-------------------------------------------------------------------------------
+
+Below the webcam stream, a result card shows prediction info.
+
+.result-card
+
+This card provides a user-friendly explanation:
+
+Action: current detected activity
+Confidence: real-time confidence score
+Explanation: tells the user predictions appear on the video frame
+
+This helps explain the AI output clearly.
+
+-------------------------------------------------------------------------------
+6. STYLING DESIGN
+-------------------------------------------------------------------------------
+
+The page uses a clean modern layout.
+
+Important design choices:
+
+• Gradient background for visual appeal
+• Center-aligned content
+• Rounded webcam container
+• Shadow effects for depth
+• Colored result card for emphasis
+
+Main CSS components:
+
+.webcam-box  → webcam video container
+.result-card → prediction display box
+
+-------------------------------------------------------------------------------
+7. NAVIGATION BUTTON
+-------------------------------------------------------------------------------
+
+The link:
+
+    <a href="/">⬅ Back to Video Upload</a>
+
+allows users to return to the main page where they can:
+
+• Upload videos
+• Start offline video analysis
+
+This improves usability of the application.
+
+-------------------------------------------------------------------------------
+8. WHY THIS DESIGN WORKS WELL
+-------------------------------------------------------------------------------
+
+This design separates two modes of action recognition:
+
+1) Uploaded video analysis  (index.html)
+2) Live webcam detection    (webcam.html)
+
+Benefits of this approach:
+
+• cleaner architecture
+• easier debugging
+• better user experience
+
+The combination of:
+
+Flask streaming + OpenCV + CNN-LSTM
+
+allows real-time human action recognition with explainable output.
+
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Explainable Human Action Recognition with CNN-LSTM</title>
+
+<style>
+
+body{
+font-family: Arial;
+text-align:center;
+background: linear-gradient(135deg,#c7e3a1,#45b3a3);
+margin:0;
+padding:0;
+}
+
+h1{
+margin-top:20px;
+color:#1f3a44;
+}
+
+.container{
+margin-top:10px;
+}
+
+/* LANDSCAPE HD WEBCAM CONTAINER */
+
+.webcam-box{
+margin:auto;
+width:90vw;
+height:60vh;
+max-width:1000px;
+border-radius:12px;
+overflow:hidden;
+border:3px solid #333;
+background:white;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+.webcam-box img{
+width:100%;
+height:100%;
+object-fit:contain;
+}
+
+.result-card{
+margin:20px auto;
+width:420px;
+background:#1f9aaa;
+color:white;
+padding:18px;
+border-radius:10px;
+box-shadow:0 8px 18px rgba(0,0,0,0.2);
+}
+
+.result-card h3{
+margin-top:0;
+}
+
+a{
+display:inline-block;
+margin-top:15px;
+padding:10px 20px;
+background:#007bff;
+color:white;
+text-decoration:none;
+border-radius:6px;
+}
+
+a:hover{
+background:#0056b3;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Explainable Human Action Recognition with CNN-LSTM</h1>
+
+<div class="container">
+
+<div class="webcam-box">
+
+<img src="{{ url_for('video_feed') }}">
+
+</div>
+
+<div class="result-card">
+
+<h3>Live Prediction</h3>
+
+<p>Action: Detecting from webcam...</p>
+
+<p>Confidence: Real-time</p>
+
+<p>Explanation: Results are shown directly on the video feed.</p>
+
+</div>
+
+<a href="/">⬅ Back to Video Upload</a>
+
+</div>
+
+</body>
+</html>
